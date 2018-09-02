@@ -41,7 +41,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+          'nom' => 'required',
+          'prenom' => 'required',
+          'mail' => 'required',
+          'tel' => 'required',
+          'title' => 'required',
+          'body' => 'required'
+        ]);
+
+        $create = Post::create($request->all());
+        return response()->json(['status' => 'success', 'msg' => 'post created successfully']);
     }
 
     /**
@@ -52,7 +62,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        return Post::find($id);
     }
 
     /**
@@ -63,7 +73,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        return Post::find($id);
     }
 
     /**
@@ -75,7 +85,22 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+    $this->validate($request, [
+      'nom' => 'required',
+      'prenom' => 'required',
+      'mail' => 'required',
+      'tel' => 'required',
+      'title' => 'required',
+      'body' => 'required'
+    ]);
+
+    $post = Post::find($id);
+    if ($post->count()) {
+      $post->update($request->all());
+      return response()->json(['statur'=>'success', 'msg'=>'Post updated successfully']);
+    } else {
+      return response()->json(['statur'=>'error', 'msg'=>'error in updating post']);
+    }
     }
 
     /**
@@ -86,6 +111,12 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        if ($post->count()) {
+          $post->delete();
+          return response()->json(['statur'=>'success', 'msg'=>'Post deleted successfully']);
+        } else {
+          return response()->json(['statur'=>'success', 'msg'=>'error in deleting post']);
+        }
     }
 }

@@ -39,7 +39,7 @@ const routes = [
   {
     name:'Editpost',
     path:'/edit/:id',
-    component:Listposts
+    component:Editpost
   },
   {
     name:'Deletepost',
